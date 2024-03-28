@@ -2,32 +2,66 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --background: 240deg 5.79% 76.27%;
+    --foreground: 240deg 4.76% 8.24%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+
+    --primary: 82.77deg 97.16% 72.35%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 225deg 6.67% 11.76%;
+
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 0.5rem;
+    --redis-gray: 183, 171, 152;
+  }
+
+  .dark {
+    --background: 240, 10%, 5%;
+    --foreground: 240deg 5.79% 76.27%;
+
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+
+    --primary: 190.29deg 51.22% 59.8%;
+    --primary-foreground: 240 5.9% 10%;
+
+    --secondary: 225deg 6.67% 11.76%;
+    --secondary-foreground: 0 0% 98%;
+
+    --border: 37, 18%, 66%, 0.5;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --redis-gray: 183, 171, 152;
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+@layer base {
+  body {
+    @apply bg-background text-foreground overflow-x-hidden;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    @apply bg-secondary w-0.5 rounded-full;
+  }
+
+  *::-webkit-scrollbar {
+    @apply w-0;
+  }
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.blob {
+  background: conic-gradient(from 2.35rad, #c76000, rgba(7, 29, 228, 0.5));
+}
+
+.linkContainer {
+  perspective: 120px;
+  perspective-origin: bottom;
 }
