@@ -1,11 +1,11 @@
-import About from "@/components/About";
+import About from "@/components/about";
 import Contact from "@/components/Contact";
-import Header from "@/components/Header";
-import Hero from "@/components/Hero";
-import Projects from "@/components/Projects";
+import Header from "@/components/header";
+import Hero from "@/components/hero";
+import Projects from "@/components/projects";
 import Services from "@/components/Services";
 import Skills from "@/components/Skills";
-import Testimonials from "@/components/Testimonials";
+import Testimonials from "@/components/testimonials";
 import Timeline from "@/components/Timeline";
 import { Portfolio } from "@/utils/interface";
 

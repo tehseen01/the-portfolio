@@ -7,7 +7,7 @@ import { SectionHeading, TextReveal } from "./ui/Typography";
 import { Project } from "../utils/interface";
 import ProjectDialog from "./ProjectDialog";
 import { ArrowUpRight } from "./ui/Icons";
-import Filters from "./Filters";
+import Filters from "./filters";
 import { useVariants } from "../utils/hooks";
 import { SlideIn, Transition } from "./ui/Transitions";
 
