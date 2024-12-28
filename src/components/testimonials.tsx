@@ -1,19 +1,41 @@
 "use client";
 
-import { Testimonial } from "@/utils/interfaces";
-import Image from "next/image";
-import { InfiniteScroll, Transition } from "./ui";
+import { Testimonial as ITestimonial } from "../utils/interface";
+import { InfiniteScroll } from "./ui/InfiniteScroll";
+import { SlideIn, Transition } from "./ui/Transitions";
+import { SectionHeading } from "./ui/Typography";
+
+const Testimonials = ({ testimonials }: { testimonials: ITestimonial[] }) => {
+  return (
+    <section className="py-20 relative" id="testimonials">
+      <span className="blob size-1/2 absolute -top-20 left-0 blur-[100px] -z-10" />
+      <SectionHeading className="md:pl-28">
+        <SlideIn className="text-white/40">What Our</SlideIn> <br />
+        <SlideIn className="">Clients Say</SlideIn>
+      </SectionHeading>
+      <Testimonial testimonials={testimonials} speed="normal" pauseOnHover />
+      <Testimonial
+        testimonials={testimonials}
+        pauseOnHover
+        speed="normal"
+        direction="left"
+      />
+    </section>
+  );
+};
+
+export default Testimonials;
 
 interface TestimonialProps {
-  data: Testimonial[];
+  testimonials: ITestimonial[];
   direction?: "left" | "right";
   speed?: "fast" | "normal" | "slow";
   pauseOnHover?: boolean;
   className?: string;
 }
 
-const Testimonials = ({
-  data,
+const Testimonial = ({
+  testimonials,
   direction,
   speed,
   pauseOnHover,
@@ -26,7 +48,7 @@ const Testimonials = ({
         pauseOnHover={pauseOnHover}
         className="pb-4"
       >
-        {data.map((val) => (
+        {testimonials.map((val) => (
           <li
             key={val._id}
             className="md:p-6 p-4 bg-secondary md:w-[450px] w-[300px] rounded-2xl space-y-2 relative overflow-hidden z-0"
@@ -40,7 +62,7 @@ const Testimonials = ({
               </p>
             </div>
             <div className="flex gap-3 pt-6">
-              <Image
+              <img
                 src={val.image.url}
                 width={50}
                 height={50}
@@ -74,5 +96,3 @@ const Testimonials = ({
     </Transition>
   );
 };
-
-export default Testimonials;

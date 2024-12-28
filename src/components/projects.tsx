@@ -1,88 +1,102 @@
 "use client";
 
-import { Project } from "@/utils/interfaces";
-import Image from "next/image";
-import { AnimatePresence, motion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
-import { useState } from "react";
-import Filters from "./filters";
-import { SectionHeading, SlideIn, TextReveal, Transition } from "./ui";
-import { useMediaQuery } from "@/utils/useMediaQuery";
-import { Button } from "./ui/button";
-import { useCursorVariants } from "@/utils/context";
-import { Dialog } from "./ui/dialog";
-import { ProjectsProvider, useProjects } from "@/utils/project-context";
+import { AnimatePresence, motion } from "motion/react";
+import { useEffect, useState } from "react";
 
-interface ProjectProps {
-  data: Project[];
+import { SlideIn, Transition } from "./ui/Transitions";
+import { SectionHeading, TextReveal } from "./ui/Typography";
+import { Project } from "../utils/interface";
+import ProjectDialog from "./ProjectDialog";
+import { ArrowUpRight } from "./ui/Icons";
+import Filters from "./Filters";
+import { useVariants } from "../utils/hooks";
+
+interface ProjectsProps {
+  projects: Project[];
 }
 
-const Projects = ({ data }: ProjectProps) => {
-  return (
-    <ProjectsProvider data={data}>
-      <section className="md:p-8 p-4 relative" id="projects">
-        <SectionHeading className="md:pl-16">
-          <SlideIn className="text-white/40">Selected</SlideIn>
-          <br />
-          <SlideIn>works</SlideIn>
-        </SectionHeading>
-        <Filters />
-        <ProjectContainer />
-      </section>
-    </ProjectsProvider>
-  );
-};
-
-export default Projects;
-
-const ProjectContainer = () => {
-  const { filteredProjects, setSingleProject } = useProjects();
+function Projects({ projects }: ProjectsProps) {
+  const [filteredProjects, setFilteredProjects] = useState(projects);
+  const [filterValue, setFilterValue] = useState("");
   const [showMore, setShowMore] = useState(false);
-  const [showDialog, setShowDialog] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
-  const isMobile = useMediaQuery("(max-width: 768px)");
+  const numProjectToShow = 6;
 
-  const numProjectToShow = isMobile ? 6 : 8;
+  useEffect(() => {
+    const filtered = applyFilters(projects, filterValue);
+    setFilteredProjects(filtered);
+  }, [filterValue, projects]);
+
+  const applyFilters = (data: Project[], filterValues: string) => {
+    if (!filterValue || filterValues === "all") {
+      return data;
+    }
+
+    return data.filter((project) =>
+      project.techStack.some((tech) => filterValues === tech.trim())
+    );
+  };
 
   return (
-    <AnimatePresence>
-      <motion.div
-        layout
-        className="grid md:grid-cols-3 grid-cols-2 md:gap-6 gap-3"
-      >
+    <section className="md:p-8 p-4 mt-10 relative" id="projects">
+      <SectionHeading className="md:pl-12">
+        <SlideIn className="text-white/40">Selected</SlideIn>
+        <br />
+        <SlideIn>works</SlideIn>
+      </SectionHeading>
+      <Filters
+        projects={projects}
+        filterValue={filterValue}
+        setFilterValue={setFilterValue}
+      />
+
+      <motion.div className="grid md:grid-cols-3 grid-cols-2 md:gap-6 gap-3 relative">
         {filteredProjects
           .slice(0, showMore ? filteredProjects.length : numProjectToShow)
-          .map((project, index) =>
-            project.enabled ? (
-              <Transition
-                transition={{ delay: 0.2 + index * 0.1 }}
-                viewport={{ once: true }}
-                key={project._id}
-                onClick={() => {
-                  setShowDialog(true);
-                  setSingleProject(project);
-                }}
-              >
-                <Card {...project} />
-              </Transition>
-            ) : null
+          .map((project, index) => (
+            <Transition
+              transition={{ delay: 0.2 + index * 0.1 }}
+              viewport={{ once: true }}
+              key={project._id}
+              layoutId={project._id}
+              onClick={() => {
+                setSelectedProject(project);
+              }}
+            >
+              <Card {...project} />
+            </Transition>
+          ))}
+        <AnimatePresence>
+          {selectedProject && (
+            <div className="rounded-lg cursor-pointer absolute inset-0 h-1/2 w-full md:w-1/2 m-auto z-50 flex justify-center items-center flex-wrap flex-col">
+              <ProjectDialog
+                selectedProject={selectedProject}
+                setSelectedProject={setSelectedProject}
+              />
+            </div>
           )}
+        </AnimatePresence>
       </motion.div>
       <div className="grid place-items-center py-8">
         {filteredProjects.length > numProjectToShow && (
-          <Button onClick={() => setShowMore(!showMore)}>
+          <button
+            className="flex items-center justify-center gap-4 py-3 px-6 rounded-full border mt-6 group relative overflow-hidden"
+            onClick={() => setShowMore(!showMore)}
+          >
             <TextReveal>{showMore ? "Show less" : "Show more"}</TextReveal>
-          </Button>
+          </button>
         )}
       </div>
-      <Dialog showDialog={showDialog} setShowDialog={setShowDialog} />
-    </AnimatePresence>
+    </section>
   );
-};
+}
+
+export default Projects;
 
 const Card = ({ title, image }: Project) => {
   const [hover, setHover] = useState(false);
-  const { setVariant } = useCursorVariants();
+  const { setVariant } = useVariants();
 
   const mouseEnter = () => {
     setHover(true);
@@ -102,7 +116,7 @@ const Card = ({ title, image }: Project) => {
     >
       <div className="absolute top-2 right-2 w-full h-full flex justify-end md:hidden">
         <div className="bg-white size-8 rounded-full text-black grid place-items-center">
-          <ArrowUpRight size={20} />
+          <ArrowUpRight />
         </div>
       </div>
       <div className="md:py-8 relative">
@@ -116,7 +130,7 @@ const Card = ({ title, image }: Project) => {
           <button className="flex gap-2 items-center justify-center max-md:px-4">
             <TextReveal className="max-md:text-sm">Visit</TextReveal>
             <span className="bg-black text-white/80 rounded-full p-1">
-              <ArrowUpRight className="size-4 md:size-6" />
+              <ArrowUpRight />
             </span>
           </button>
         </motion.div>
@@ -130,7 +144,7 @@ const Card = ({ title, image }: Project) => {
           </motion.p>
         </div>
       </div>
-      <Image
+      <img
         src={image.url}
         width={500}
         height={500}

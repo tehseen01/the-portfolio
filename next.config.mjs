@@ -5,6 +5,9 @@ const nextConfig = {
       {
         hostname: "portfolio-image-store.s3.ap-south-1.amazonaws.com",
       },
+      {
+        hostname: "res.cloudinary.com",
+      },
     ],
   },
 };

@@ -1,14 +1,14 @@
 "use client";
 
-import { About as AboutType, Timeline } from "@/utils/interfaces";
-import Image from "next/image";
 import { Dispatch, SetStateAction, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { formatDate } from "@/utils";
-import { SlideIn, Transition } from "./ui";
+import { motion } from "motion/react";
+
+import { About as IAbout, Timeline } from "../utils/interface";
+import { OpacityTextReveal, SlideIn, Transition } from "./ui/Transitions";
+import { formatDate } from "../utils";
 
 interface AboutProps {
-  about: AboutType;
+  about: IAbout;
   timeline: Timeline[];
 }
 
@@ -26,12 +26,15 @@ const About = ({ about, timeline }: AboutProps) => {
     >
       <div>
         <h3 className="md:text-5xl text-2xl font-bold overflow-hidden uppercase pb-8">
-          <SlideIn>{about.quote}</SlideIn>
+          <SlideIn>
+            <OpacityTextReveal>{about.quote}</OpacityTextReveal>
+          </SlideIn>
         </h3>
-        <Transition viewport={{ once: true }}>
-          <p className="text-xl md:text-4xl text-foreground/50">
-            {about.description}
-          </p>
+        <Transition
+          viewport={{ once: true }}
+          className="md:text-4xl tracking-tighter"
+        >
+          <OpacityTextReveal>{about.description}</OpacityTextReveal>
         </Transition>
         <div className="pt-10">
           <div className="py-10 overflow-hidden grid w-full">
@@ -51,7 +54,7 @@ const About = ({ about, timeline }: AboutProps) => {
       <div className="relative">
         <div className="sticky top-6">
           <Transition>
-            <Image
+            <img
               src={about.avatar.url}
               width={400}
               height={400}
@@ -80,7 +83,7 @@ const TimelineCard = ({
   setActiveIndex,
   index,
 }: TimelineCardProps) => (
-  <div className="border-b border-primary/20 py-4">
+  <section id="about" className="border-b border-primary/20 py-4">
     <div
       className="flex items-center justify-between gap-4 cursor-pointer select-none"
       onClick={() => setActiveIndex(index)}
@@ -139,5 +142,5 @@ const TimelineCard = ({
         ))}
       </ul>
     </motion.div>
-  </div>
+  </section>
 );

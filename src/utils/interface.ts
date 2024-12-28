@@ -1,9 +1,4 @@
-export interface UserObject {
-  success: boolean;
-  user: User;
-}
-
-export interface User {
+export interface Portfolio {
   about: About;
   _id: string;
   username: string;
@@ -38,7 +33,6 @@ export interface About {
 export interface Avatar {
   public_id: string;
   url: string;
-  _id: string;
 }
 
 export interface Skill {

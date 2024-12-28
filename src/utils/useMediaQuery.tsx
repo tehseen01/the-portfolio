@@ -1,11 +1,8 @@
-"use client";
-
 import { useState, useEffect } from "react";
 
-// Define a type alias for media query options
 interface MediaQueryOptions {
-  defaultValue?: boolean; // Default value to return on server-side rendering
-  initializeWithValue?: boolean; // Whether to initialize reading the media query on mount (default: true)
+  defaultValue?: boolean;
+  initializeWithValue?: boolean;
 }
 
 export function useMediaQuery(
@@ -17,22 +14,16 @@ export function useMediaQuery(
   );
 
   useEffect(() => {
-    // Check if we're on the server (no window object)
-    if (typeof window !== "undefined") {
-      const media = window.matchMedia(query);
-      const listener = () => setMatches(media.matches);
+    const media = window.matchMedia(query);
+    const listener = () => setMatches(media.matches);
 
-      if (options?.initializeWithValue !== false) {
-        setMatches(media.matches); // Initialize with initial state
-      }
-
-      window.addEventListener("resize", listener);
-
-      return () => window.removeEventListener("resize", listener);
+    if (options?.initializeWithValue !== false) {
+      setMatches(media.matches); // Initialize with initial state
     }
 
-    // Return default value on server-side rendering
-    return () => {};
+    window.addEventListener("resize", listener);
+
+    return () => window.removeEventListener("resize", listener);
   }, [query, options]);
 
   return matches;

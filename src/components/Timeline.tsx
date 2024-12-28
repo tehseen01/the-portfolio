@@ -1,16 +1,18 @@
 "use client";
 
-import { formatDate } from "@/utils";
-import { Timeline } from "@/utils/interfaces";
-import { motion } from "framer-motion";
 import { useState } from "react";
-import { SectionHeading, PerspectiveText, SlideIn, Transition } from "./ui";
+import { motion } from "motion/react";
+
+import { Timeline as ITimeline } from "../utils/interface";
+import { SectionHeading } from "./ui/Typography";
+import { SlideIn, Transition } from "./ui/Transitions";
+import { formatDate } from "../utils";
 
 interface ExperienceProps {
-  timeline: Timeline[];
+  timeline: ITimeline[];
 }
 
-const Experience = ({ timeline }: ExperienceProps) => {
+const Timeline = ({ timeline }: ExperienceProps) => {
   const experience = timeline
     .filter((line) => !line.forEducation && line.enabled === true)
     .sort((a, b) => a.sequence - b.sequence);
@@ -36,9 +38,7 @@ const Experience = ({ timeline }: ExperienceProps) => {
             <div className="flex items-center justify-between md:gap-8">
               <span className="max-md:hidden">0{index + 1}</span>
               <div className="md:text-5xl text-xl md:font-semibold flex-1">
-                <PerspectiveText hover={hover === index}>
-                  {exp.jobTitle}
-                </PerspectiveText>
+                {exp.jobTitle}
               </div>
               <div className="max-md:text-sm max-md:flex flex-col text-foreground/50">
                 <span className="italic">
@@ -80,4 +80,4 @@ const Experience = ({ timeline }: ExperienceProps) => {
   );
 };
 
-export default Experience;
+export default Timeline;

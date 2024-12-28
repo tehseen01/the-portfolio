@@ -1,13 +1,20 @@
 "use client";
 
-import { cn } from "@/utils/cn";
-import { motion } from "framer-motion";
-import { Button, TextReveal, Transition } from "./ui";
-import { useProjects } from "@/utils/project-context";
+import { motion } from "motion/react";
+import { Dispatch, SetStateAction } from "react";
 
-const Filters = () => {
-  const { projects, setAppliedFilter, appliedFilter, sort, setSort } =
-    useProjects();
+import { cn } from "../utils/cn";
+import { Project } from "../utils/interface";
+import { Transition } from "./ui/Transitions";
+import { TextReveal } from "./ui/Typography";
+
+interface FilterProps {
+  projects: Project[];
+  filterValue: string;
+  setFilterValue: Dispatch<SetStateAction<string>>;
+}
+
+const Filters = ({ projects, filterValue, setFilterValue }: FilterProps) => {
   const techStack = projects.flatMap((filter) =>
     filter.techStack.map((val) => val.trim())
   );
@@ -16,14 +23,14 @@ const Filters = () => {
   return (
     <div className="flex items-center gap-4 py-8 justify-center max-md:flex-wrap">
       <Transition viewport={{ once: true }}>
-        <Button
+        <button
           className={cn(
             "border border-white/30 px-6 py-2 rounded-full relative",
-            appliedFilter === "all" && "text-black border-transparent"
+            filterValue === "all" && "text-black border-transparent"
           )}
-          onClick={() => setAppliedFilter("all")}
+          onClick={() => setFilterValue("all")}
         >
-          {appliedFilter === "all" && (
+          {filterValue === "all" && (
             <motion.span
               transition={{ type: "spring", bounce: 0.3 }}
               exit={{ type: "spring" }}
@@ -32,7 +39,7 @@ const Filters = () => {
             />
           )}
           <TextReveal>All</TextReveal>
-        </Button>
+        </button>
       </Transition>
       {filters.map((filter, index) => (
         <Transition
@@ -40,13 +47,13 @@ const Filters = () => {
           transition={{ duration: 1, delay: 0.3 + index * 0.1 }}
           viewport={{ once: true }}
         >
-          <Button
-            onClick={() => setAppliedFilter(filter)}
-            animate={{ color: appliedFilter === filter ? "black" : "" }}
+          <motion.button
+            onClick={() => setFilterValue(filter)}
+            animate={{ color: filterValue === filter ? "black" : "" }}
             transition={{ delay: 0.4 }}
             className="relative border border-white/20 px-3 py-2 rounded-full"
           >
-            {appliedFilter === filter && (
+            {filterValue === filter && (
               <motion.span
                 transition={{ type: "spring", bounce: 0.3 }}
                 exit={{ type: "spring" }}
@@ -55,27 +62,11 @@ const Filters = () => {
               />
             )}
             <TextReveal>{filter}</TextReveal>
-          </Button>
+          </motion.button>
         </Transition>
       ))}
-      <Transition viewport={{ once: true }}>
-        <Sort />
-      </Transition>
     </div>
   );
 };
 
 export default Filters;
-
-const Sort = () => {
-  const { setSort, sort } = useProjects();
-
-  return (
-    <Button
-      className="border border-white/20 px-4 py-2 rounded-full"
-      onClick={() => setSort(true)}
-    >
-      <TextReveal>{sort ? "Sorted" : "Sort"}</TextReveal>
-    </Button>
-  );
-};

@@ -1,7 +1,13 @@
 "use client";
 
-import { cn } from "@/utils/cn";
-import { HTMLMotionProps, motion } from "framer-motion";
+import { HTMLMotionProps, motion } from "motion/react";
+import { HTMLAttributes, useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+gsap.registerPlugin(useGSAP, ScrollTrigger);
+
+import { cn } from "../../utils/cn";
 
 interface Props extends HTMLMotionProps<"span"> {}
 
@@ -50,12 +56,53 @@ export const Transition = ({
   );
 };
 
-export const FadeIn = () => {
+export const OpacityTextReveal = (props: HTMLAttributes<HTMLSpanElement>) => {
+  const textRef = useRef(null);
+
+  useGSAP(
+    () => {
+      gsap.to(textRef.current, {
+        backgroundPositionX: 0,
+        ease: "none",
+        scrollTrigger: {
+          trigger: textRef.current,
+          scrub: 1,
+          start: "top bottom",
+          end: "bottom center",
+        },
+      });
+    },
+    { revertOnUpdate: true }
+  );
+
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      transition={{ duration: 0.5, delay: 0.3 }}
-    ></motion.div>
+    <span
+      {...props}
+      ref={textRef}
+      className={cn("text-reveal", props.className)}
+    />
+  );
+};
+
+export const OpacityTransition = ({ children }: { children: string }) => {
+  return (
+    <div className="overflow-hidden ">
+      {children.split("").map((char, i) => (
+        <motion.span
+          initial={{ opacity: 0.1 }}
+          animate={{ opacity: 1 }}
+          layout
+          transition={{ delay: i * 0.03, ease: [0.215, 0.61, 0.355, 1] }}
+          exit={{
+            y: 0,
+            transition: { delay: i * 0.02, ease: [0.215, 0.61, 0.355, 1] },
+          }}
+          key={i}
+          className="inline-block"
+        >
+          {char}
+        </motion.span>
+      ))}
+    </div>
   );
 };

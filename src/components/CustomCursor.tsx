@@ -1,18 +1,12 @@
 "use client";
 
-import { useCursorVariants } from "@/utils/context";
-import {
-  useMotionValue,
-  useSpring,
-  motion,
-  AnimationProps,
-  Variants,
-} from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { motion, useMotionValue, useSpring, Variants } from "motion/react";
 import { useEffect } from "react";
 
-export const Cursor = () => {
-  const { variant } = useCursorVariants();
+import { useVariants } from "../utils/hooks";
+
+function CustomCursor() {
+  const { variant } = useVariants();
 
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
@@ -41,13 +35,11 @@ export const Cursor = () => {
     DEFAULT: {
       width: 16,
       height: 16,
-      backgroundColor: "transparent",
       border: "1px solid white",
     },
     PROJECT: {
       height: 100,
       width: 100,
-      mixBlendMode: "unset",
     },
     BUTTON: {
       opacity: 0,
@@ -70,11 +62,9 @@ export const Cursor = () => {
         translateY: cursorYSpring,
       }}
     >
-      {variant === "PROJECT" && (
-        <div className="text-black">
-          <ArrowUpRight size={28} />
-        </div>
-      )}
+      {variant === "PROJECT" && <div className="text-black">OPEN</div>}
     </motion.div>
   );
-};
+}
+
+export default CustomCursor;

@@ -39,10 +39,13 @@
     --border: 37, 18%, 66%, 0.5;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
-    --redis-gray: 183, 171, 152;
+    --opacity-color: 203, 203, 219;
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
 @layer base {
   body {
     @apply bg-background text-foreground overflow-x-hidden;
@@ -61,7 +64,18 @@
   background: conic-gradient(from 2.35rad, #c76000, rgba(7, 29, 228, 0.5));
 }
 
-.linkContainer {
-  perspective: 120px;
-  perspective-origin: bottom;
+.text-reveal {
+  display: inline;
+  background: linear-gradient(
+    to right,
+    rgba(var(--opacity-color), 1) 0%,
+    rgba(var(--opacity-color), 1) 50%,
+    rgba(var(--opacity-color), 0.2) 50%,
+    rgba(var(--opacity-color), 0.2) 100%
+  );
+  background-clip: text;
+  background-size: 200% 100%;
+  background-position: right bottom;
+  color: transparent;
+  background-repeat: no-repeat;
 }

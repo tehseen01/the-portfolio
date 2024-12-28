@@ -3,19 +3,16 @@
 import { ReactNode, useRef } from "react";
 import {
   motion,
+  useAnimationFrame,
+  useMotionValue,
   useScroll,
   useSpring,
   useTransform,
-  useMotionValue,
   useVelocity,
-  useAnimationFrame,
-} from "framer-motion";
-import { cn } from "@/utils/cn";
+  wrap,
+} from "motion/react";
 
-const wrap = (min: number, max: number, v: number) => {
-  const rangeSize = max - min;
-  return ((((v - min) % rangeSize) + rangeSize) % rangeSize) + min;
-};
+import { cn } from "../../utils/cn";
 
 interface ParallaxProps {
   children: ReactNode;

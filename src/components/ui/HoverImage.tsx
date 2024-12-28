@@ -1,29 +1,27 @@
 "use client";
 
-import { useMotionValue, motion, useSpring, useTransform } from "framer-motion";
+import { useMotionValue, motion, useSpring, useTransform } from "motion/react";
+import { useRef } from "react";
 import Link from "next/link";
 
-import { useRef } from "react";
-import { TextReveal } from "./typography";
+import { TextReveal } from "./Typography";
 
-interface LinkProps {
+interface HoverImageProps {
   heading: string;
   imgSrc: string;
   subheading: string;
-  href: string;
   price: string;
 }
 
-export const HoverImageLink = ({
+export const HoverImage = ({
   heading,
   imgSrc,
   subheading,
-  href,
   price,
-}: LinkProps) => {
+}: HoverImageProps) => {
   const ref = useRef<HTMLAnchorElement | null>(null);
 
-  const MotionLink = motion(Link);
+  const MotionLink = motion.create(Link);
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -54,7 +52,7 @@ export const HoverImageLink = ({
 
   return (
     <MotionLink
-      href={href}
+      href={"#contact"}
       ref={ref}
       onMouseMove={handleMouseMove}
       initial="initial"
@@ -63,14 +61,14 @@ export const HoverImageLink = ({
     >
       <div>
         <div className="flex items-center justify-between">
-          <h4 className="relative z-10 block text-2xl sm:text-4xl font-semibold md:font-bold md:text-neutral-500 transition-colors duration-500 group-hover:text-neutral-50 md:text-6xl">
+          <h4 className="relative z-10 block text-2xl sm:text-4xl font-semibold md:font-bold md:text-neutral-500 transition-colors duration-500 group-hover:text-neutral-50 md:text-6xl tracking-tighter">
             {heading}
           </h4>
           <span className="md:text-2xl text-foreground/50 md:hidden">
             {price}
           </span>
         </div>
-        <p className="relative z-10 mt-2 block md:text-base text-sm text-foreground/50 transition-colors duration-500 group-hover:text-neutral-50">
+        <p className="relative z-10 mt-2 block md:text-base text-sm text-foreground/50 transition-colors duration-500 group-hover:text-neutral-50 pt-2">
           {subheading}
         </p>
       </div>
