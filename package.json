@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@gsap/react": "^2.1.1",
-    "@studio-freight/lenis": "^1.0.42",
     "clsx": "^2.1.1",
     "lucide-react": "^0.469.0",
     "motion": "^11.15.0",

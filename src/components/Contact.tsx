@@ -3,12 +3,12 @@
 import { AnimatePresence, motion } from "motion/react";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
-import { SectionHeading, TextReveal } from "./ui/Typography";
-import { SlideIn, Transition } from "./ui/Transitions";
-import { Input, Textarea } from "./ui/Input";
 import { About, SocialHandle } from "../utils/interface";
 import { cn } from "../utils/cn";
 import Link from "next/link";
+import { SectionHeading, TextReveal } from "./ui/Typography";
+import { SlideIn, Transition } from "./ui/Transitions";
+import { Input, Textarea } from "./ui/Input";
 
 interface ContactProps {
   email: string;

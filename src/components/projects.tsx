@@ -3,13 +3,13 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
 
-import { SlideIn, Transition } from "./ui/Transitions";
 import { SectionHeading, TextReveal } from "./ui/Typography";
 import { Project } from "../utils/interface";
 import ProjectDialog from "./ProjectDialog";
 import { ArrowUpRight } from "./ui/Icons";
 import Filters from "./Filters";
 import { useVariants } from "../utils/hooks";
+import { SlideIn, Transition } from "./ui/Transitions";
 
 interface ProjectsProps {
   projects: Project[];
