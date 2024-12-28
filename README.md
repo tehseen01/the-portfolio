@@ -4,7 +4,7 @@
 
 ## Overview
 
-This project is a personal portfolio website showcasing my skills, projects, and experience. It is built using modern web technologies and follows best practices for performance and accessibility.
+This project is a portfolio website template showcasing skills, projects, and experience. It is built using modern web technologies and follows best practices for performance and accessibility.
 
 ## ✨ Features
 
@@ -132,7 +132,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For questions or feedback, reach out through:
 
-- Email: your.email@example.com
+- Email: tehseen.type@gmail.com
 - Twitter: [@tehseen_type](https://twitter.com/tehseen_type)
 - LinkedIn: [Mohd Tehseen](https://linkedin.com/in/tehseen.01)
 
